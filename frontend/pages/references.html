@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="References for the ArtConnect project — image sources, multimedia credits, external resources, and the AI prompts used during development.">
+  <title>References — ArtConnect</title>
+  <link rel="icon" type="image/svg+xml" href="../images/logo.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Inter:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body data-root="..">
+
+  <header class="site-header">
+    <nav class="nav" aria-label="Main navigation">
+      <a class="brand" href="../index.html">
+        <img src="../images/logo.svg" alt="ArtConnect logo">
+        <span class="brand-name">Art<span>Connect</span></span>
+      </a>
+      <button class="nav-toggle" type="button" aria-label="Toggle navigation menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="submit.html">Submit Art</a></li>
+        <li><a href="faq.html">FAQ</a></li>
+        <li><a href="references.html" class="active">References</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="section">
+      <div class="container">
+        <span class="eyebrow">Credits &amp; integrity</span>
+        <h2>References</h2>
+        <p class="section-intro">
+          Sources for all images and multimedia on this site, external resources used during
+          development, and — per course academic integrity requirements — a log of the AI
+          prompts used while building this project.
+        </p>
+
+        <div class="ref-block">
+          <h3>Image sources</h3>
+          <p>
+            All artworks displayed in the gallery are in the <strong>public domain</strong> and are
+            served from Wikimedia Commons via its stable <code>Special:FilePath</code> endpoint.
+            Event cover images reuse artworks from this same set.
+          </p>
+          <ul>
+            <li>Vincent van Gogh, <em>The Starry Night</em> (1889) — Wikimedia Commons / Google Art Project scan. Also used as the homepage hero background.</li>
+            <li>Katsushika Hokusai, <em>The Great Wave off Kanagawa</em> (c. 1831) — Wikimedia Commons.</li>
+            <li>Johannes Vermeer, <em>Girl with a Pearl Earring</em> (c. 1665) — Wikimedia Commons (Mauritshuis, The Hague).</li>
+            <li>Gustav Klimt, <em>The Kiss</em> (1908) — Wikimedia Commons (The Yorck Project).</li>
+            <li>Caspar David Friedrich, <em>Wanderer above the Sea of Fog</em> (c. 1818) — Wikimedia Commons (Hamburger Kunsthalle).</li>
+            <li>Claude Monet, <em>Impression, Sunrise</em> (1872) — Wikimedia Commons (Musée Marmottan Monet).</li>
+            <li>Grant Wood, <em>American Gothic</em> (1930) — Wikimedia Commons / Google Art Project scan (Art Institute of Chicago).</li>
+            <li>Vincent van Gogh, <em>Café Terrace at Night</em> (1888) — Wikimedia Commons (The Yorck Project).</li>
+            <li>ArtConnect logo and artwork placeholder graphic — original SVGs created for this project.</li>
+          </ul>
+        </div>
+
+        <div class="ref-block">
+          <h3>Multimedia sources</h3>
+          <ul>
+            <li>
+              Embedded video (homepage): "Exhibition Tour — Making the Met, 1870–2020, Narrated by
+              Steve Martin," published by The Metropolitan Museum of Art's official YouTube channel
+              (Met Exhibitions series). Embedded via YouTube's privacy-enhanced
+              (youtube-nocookie.com) player.
+            </li>
+          </ul>
+        </div>
+
+        <div class="ref-block">
+          <h3>External resources</h3>
+          <ul>
+            <li>Google Fonts — Playfair Display and Inter typefaces.</li>
+            <li>Wikimedia Commons — public-domain artwork image hosting.</li>
+            <li>MDN Web Docs — HTML, CSS, and JavaScript reference used during development.</li>
+            <li>GitHub Pages — static site hosting for the published website.</li>
+          </ul>
+        </div>
+
+        <div class="ref-block">
+          <h3>AI prompts used during development</h3>
+          <p>
+            This project was developed with the assistance of <strong>Claude (Anthropic)</strong>.
+            In accordance with the course's academic integrity policy, the prompts given to the AI
+            during Phase 2 development are logged below verbatim. The AI generated the initial
+            front-end code (HTML, CSS, and JavaScript) from the Phase 1 planning &amp; design
+            document; the developer reviewed, tested, adjusted, and deployed the result.
+          </p>
+
+          <div class="prompt-log">
+            <p class="prompt-label">Prompt 1</p>
+            <p>Uploaded the "Web Project Assignment Phase 2: Front-end implementation" specification, followed by: "do you understand the assignment and the deliverables well enough now?"</p>
+          </div>
+
+          <div class="prompt-log">
+            <p class="prompt-label">Prompt 2</p>
+            <p>"what do you need from me to do my deliverables / can I get Cowork to do most of it for me"</p>
+          </div>
+
+          <div class="prompt-log">
+            <p class="prompt-label">Prompt 3</p>
+            <p>Uploaded the Phase 1 Planning &amp; Design document (ArtConnect) and provided: developer email, GitHub username, "look those up yourself" (for public-domain image sourcing), and "Do whichever is easiest and best for you to do" (for the multimedia element). The AI then generated the complete front-end: index.html, gallery.html, events.html, submit.html, faq.html, references.html, style.css, script.js, and SVG assets, implementing the color palette, typography, and page structure specified in the Phase 1 document.</p>
+          </div>
+
+          <p>
+            <em>Note:</em> The Phase 1 planning document itself was also prepared with AI
+            assistance, as documented in that phase's submission.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <ul class="footer-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="submit.html">Submit Art</a></li>
+        <li><a href="faq.html">FAQ</a></li>
+        <li><a href="references.html">References</a></li>
+      </ul>
+      <p class="footer-copy">© <span class="js-year">2026</span> ArtConnect · Built by Jaikrishna Parthiban for CIS 2336</p>
+    </div>
+  </footer>
+
+  <script src="../js/script.js"></script>
+</body>
+</html>
