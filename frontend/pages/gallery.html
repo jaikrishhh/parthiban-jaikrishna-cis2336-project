@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Browse the ArtConnect gallery — filter by category, search by title or artist, and view detailed wall labels for every piece.">
+  <title>Gallery — ArtConnect</title>
+  <link rel="icon" type="image/svg+xml" href="../images/logo.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Inter:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body data-root="..">
+
+  <header class="site-header">
+    <nav class="nav" aria-label="Main navigation">
+      <a class="brand" href="../index.html">
+        <img src="../images/logo.svg" alt="ArtConnect logo">
+        <span class="brand-name">Art<span>Connect</span></span>
+      </a>
+      <button class="nav-toggle" type="button" aria-label="Toggle navigation menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="gallery.html" class="active">Gallery</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="submit.html">Submit Art</a></li>
+        <li><a href="faq.html">FAQ</a></li>
+        <li><a href="references.html">References</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="section">
+      <div class="container">
+        <span class="eyebrow">The collection</span>
+        <h2>Gallery</h2>
+        <p class="section-intro">
+          Filter by category, search by title or artist, or sort the wall your way.
+          Click any piece to enlarge it and read its full label.
+        </p>
+
+        <div class="gallery-controls">
+          <div id="gallery-filters" aria-label="Filter artworks by category" style="display: flex; flex-wrap: wrap; gap: 0.5rem;"></div>
+        </div>
+        <div class="gallery-controls">
+          <input type="search" id="gallery-search" class="gallery-search"
+                 placeholder="Search title, artist, or category…"
+                 aria-label="Search artworks">
+          <select id="gallery-sort" class="gallery-sort" aria-label="Sort artworks">
+            <option value="default">Sort: Curator's order</option>
+            <option value="title">Sort: Title A–Z</option>
+            <option value="artist">Sort: Artist A–Z</option>
+            <option value="year">Sort: Year (oldest first)</option>
+            <option value="price">Sort: Price (low to high)</option>
+          </select>
+        </div>
+
+        <div class="card-grid" id="gallery-grid"></div>
+        <p class="empty-note" id="gallery-empty" style="display: none;">
+          No artworks match that search — try a different term or clear the filter.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <ul class="footer-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="submit.html">Submit Art</a></li>
+        <li><a href="faq.html">FAQ</a></li>
+        <li><a href="references.html">References</a></li>
+      </ul>
+      <p class="footer-copy">© <span class="js-year">2026</span> ArtConnect · Built by Jaikrishna Parthiban for CIS 2336</p>
+    </div>
+  </footer>
+
+  <div class="modal-backdrop" id="art-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal">
+      <button class="modal-close" type="button" aria-label="Close artwork details">✕</button>
+      <img id="modal-img" src="" alt="">
+      <div class="modal-body">
+        <h3 id="modal-title"></h3>
+        <p class="placard-artist" id="modal-artist"></p>
+        <div class="placard-meta" style="margin-bottom: 0.9rem;">
+          <span class="placard-category" id="modal-category"></span>
+          <span class="price-tag" id="modal-price"></span>
+        </div>
+        <p id="modal-desc"></p>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/script.js"></script>
+</body>
+</html>
