@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-label="Artwork image unavailable">
+  <rect width="800" height="600" fill="#F8F5F0"/>
+  <rect x="30" y="30" width="740" height="540" fill="none" stroke="#C8852A" stroke-width="6"/>
+  <rect x="60" y="60" width="680" height="480" fill="#0D1B2A"/>
+  <path d="M120 460 C 260 220, 420 200, 560 330 S 680 420, 700 380" stroke="#C8852A" stroke-width="10" fill="none" stroke-linecap="round" opacity="0.9"/>
+  <circle cx="590" cy="170" r="42" fill="#E85D4A" opacity="0.85"/>
+  <text x="400" y="530" font-family="Georgia, serif" font-size="26" fill="#F8F5F0" text-anchor="middle" font-style="italic">Image loading… artwork preview unavailable</text>
+</svg>

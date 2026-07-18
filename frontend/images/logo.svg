@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="ArtConnect logo">
+  <!-- Gallery frame mark: a framed canvas with an amber brush arc -->
+  <rect x="4" y="4" width="56" height="56" rx="6" fill="#0D1B2A"/>
+  <rect x="12" y="12" width="40" height="40" rx="2" fill="#F8F5F0"/>
+  <path d="M16 42 C 24 20, 40 20, 48 34" stroke="#C8852A" stroke-width="5" fill="none" stroke-linecap="round"/>
+  <circle cx="44" cy="22" r="4" fill="#E85D4A"/>
+</svg>

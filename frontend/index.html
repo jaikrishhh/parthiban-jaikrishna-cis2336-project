@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="ArtConnect — a curated platform where artists showcase their work, promote events, and connect with collectors and enthusiasts.">
+  <title>ArtConnect — Where Artists Meet Their Audience</title>
+  <link rel="icon" type="image/svg+xml" href="images/logo.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Inter:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-root=".">
+
+  <header class="site-header">
+    <nav class="nav" aria-label="Main navigation">
+      <a class="brand" href="index.html">
+        <img src="images/logo.svg" alt="ArtConnect logo">
+        <span class="brand-name">Art<span>Connect</span></span>
+      </a>
+      <button class="nav-toggle" type="button" aria-label="Toggle navigation menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links">
+        <li><a href="index.html" class="active">Home</a></li>
+        <li><a href="pages/gallery.html">Gallery</a></li>
+        <li><a href="pages/events.html">Events</a></li>
+        <li><a href="pages/submit.html">Submit Art</a></li>
+        <li><a href="pages/faq.html">FAQ</a></li>
+        <li><a href="pages/references.html">References</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" style="background-image: url('https://commons.wikimedia.org/wiki/Special:FilePath/Vincent%20van%20Gogh%20-%20The%20Starry%20Night%20-%20Google%20Art%20Project.jpg?width=1600');">
+      <div class="hero-inner">
+        <span class="eyebrow" style="color: var(--amber);">A curated home for art &amp; artists</span>
+        <h1>Where artists meet <em>their audience</em>.</h1>
+        <p>
+          ArtConnect gives beginner and professional artists a beautiful, zero-code space to
+          showcase work, promote events, and build a following — and gives collectors one
+          curated destination to discover them.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn--primary" href="pages/gallery.html">Explore the gallery</a>
+          <a class="btn btn--ghost" href="pages/submit.html">Submit your artwork</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <span class="eyebrow">Welcome to ArtConnect</span>
+        <h2>A digital bridge between creators and the people who love art</h2>
+        <p class="section-intro">
+          Social feeds bury artwork; portfolio builders cost money and time. ArtConnect is a
+          purpose-built platform where artists at every career stage can display portfolios,
+          promote upcoming exhibitions and workshops, and grow a dedicated following — no
+          technical expertise required. Visitors get a single, curated place to explore styles,
+          filter by category, and engage with the creative community.
+        </p>
+      </div>
+    </section>
+
+    <section class="section section--tinted">
+      <div class="container">
+        <span class="eyebrow">From the collection</span>
+        <h2>Featured artwork</h2>
+        <p class="section-intro">A rotating selection from our public-domain masterworks collection. Click any piece to view its full wall label.</p>
+        <div class="card-grid" id="featured-grid"></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <span class="eyebrow">Don't miss it</span>
+        <h2>Featured event</h2>
+        <div class="event-list">
+          <article class="event-card featured-event" id="featured-event"></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--tinted">
+      <div class="container">
+        <span class="eyebrow">Watch</span>
+        <h2>Inside a world-class exhibition</h2>
+        <p class="section-intro">
+          How does a great exhibition come together? Tour <em>Making the Met, 1870–2020</em> —
+          The Metropolitan Museum of Art's 150th-anniversary exhibition — narrated by Steve Martin.
+        </p>
+        <div class="video-frame">
+          <iframe
+            src="https://www.youtube-nocookie.com/embed/wgpOsxHkeTw"
+            title="Exhibition Tour — Making the Met, 1870–2020, narrated by Steve Martin (The Met)"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen
+            loading="lazy"></iframe>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="contact">
+      <div class="container">
+        <span class="eyebrow">Developer contact</span>
+        <h2>About this project</h2>
+        <p class="section-intro">
+          ArtConnect is a multi-phase web development project built for CIS 2336 at the
+          University of Houston. Questions and feedback are welcome.
+        </p>
+        <div class="contact-card">
+          <h3>Jaikrishna Parthiban</h3>
+          <p>Developer · CIS 2336 Web Project</p>
+          <p>Email: <a href="mailto:jparthib@cougarnet.uh.edu">jparthib@cougarnet.uh.edu</a></p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <ul class="footer-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="pages/gallery.html">Gallery</a></li>
+        <li><a href="pages/events.html">Events</a></li>
+        <li><a href="pages/submit.html">Submit Art</a></li>
+        <li><a href="pages/faq.html">FAQ</a></li>
+        <li><a href="pages/references.html">References</a></li>
+      </ul>
+      <p class="footer-copy">© <span class="js-year">2026</span> ArtConnect · Built by Jaikrishna Parthiban for CIS 2336</p>
+    </div>
+  </footer>
+
+  <div class="modal-backdrop" id="art-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal">
+      <button class="modal-close" type="button" aria-label="Close artwork details">✕</button>
+      <img id="modal-img" src="" alt="">
+      <div class="modal-body">
+        <h3 id="modal-title"></h3>
+        <p class="placard-artist" id="modal-artist"></p>
+        <div class="placard-meta" style="margin-bottom: 0.9rem;">
+          <span class="placard-category" id="modal-category"></span>
+          <span class="price-tag" id="modal-price"></span>
+        </div>
+        <p id="modal-desc"></p>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
