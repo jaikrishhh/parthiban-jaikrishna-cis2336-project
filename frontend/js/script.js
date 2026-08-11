@@ -2,7 +2,7 @@
 
 const WM = "https://commons.wikimedia.org/wiki/Special:FilePath/";
 
-const ARTWORKS = [
+let ARTWORKS = [
   {
     id: 1,
     title: "The Starry Night",
@@ -101,7 +101,7 @@ const ARTWORKS = [
   }
 ];
 
-const EVENTS = [
+let EVENTS = [
   {
     id: 1,
     title: "Impressionist Evenings: Light & Water",
@@ -234,7 +234,7 @@ function openArtModal(art) {
   });
 })();
 
-(function initGallery() {
+function initGallery() {
   const grid = qs("#gallery-grid");
   if (!grid) return;
 
@@ -311,9 +311,9 @@ function openArtModal(art) {
   searchInput.addEventListener("input", render);
   sortSelect.addEventListener("change", render);
   render();
-})();
+}
 
-(function initHome() {
+function initHome() {
   const featuredGrid = qs("#featured-grid");
   if (featuredGrid) {
 
@@ -335,9 +335,9 @@ function openArtModal(art) {
       '<a class="btn btn--dark event-toggle" href="pages/events.html">See all events</a>' +
       "</div>";
   }
-})();
+}
 
-(function initEvents() {
+function initEvents() {
   const list = qs("#event-list");
   if (!list) return;
 
@@ -364,7 +364,7 @@ function openArtModal(art) {
 
     list.appendChild(card);
   });
-})();
+}
 
 (function initFaq() {
   const items = qsa(".faq-item");
@@ -536,6 +536,61 @@ function openArtModal(art) {
       }
     }
   });
+})();
+
+// ---------------------------------------------------------------------------
+// Phase 4 - load gallery and event data from the Express backend.
+//
+// The arrays above are no longer the source of truth; they are an offline
+// fallback. When the Node server is running, the API replaces them, so a piece
+// submitted through the form shows up in the gallery immediately. When the
+// pages are opened directly from disk or served by GitHub Pages, no backend
+// exists, the fetch fails, and the seeded arrays render instead - so the site
+// still works in both environments rather than showing an empty gallery.
+// ---------------------------------------------------------------------------
+async function loadFromApi() {
+  const [artRes, evRes] = await Promise.all([
+    fetch("/api/artworks"),
+    fetch("/api/events")
+  ]);
+
+  if (!artRes.ok || !evRes.ok) {
+    throw new Error("API responded with an error status");
+  }
+
+  const artData = await artRes.json();
+  const evData = await evRes.json();
+
+  if (Array.isArray(artData.artworks) && artData.artworks.length) {
+    // Submissions made through the form have no image, so fall back to the
+    // local placeholder rather than rendering a broken <img>.
+    ARTWORKS = artData.artworks.map(function (art) {
+      if (!art.img) art.img = PLACEHOLDER;
+      return art;
+    });
+  }
+
+  if (Array.isArray(evData.events) && evData.events.length) {
+    EVENTS = evData.events.map(function (ev) {
+      if (!ev.img) ev.img = PLACEHOLDER;
+      return ev;
+    });
+  }
+}
+
+(async function bootstrap() {
+  try {
+    await loadFromApi();
+    console.info("ArtConnect: rendering " + ARTWORKS.length + " artworks from the API.");
+  } catch (err) {
+    console.warn("ArtConnect: backend unavailable, using bundled data.", err.message);
+  }
+
+  // Rendered only after the data settles, so the page never flashes one set of
+  // artworks and then swaps to another.
+  initGallery();
+  initHome();
+  initEvents();
 })();
 
 qsa(".js-year").forEach((el) => {
