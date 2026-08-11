@@ -1,0 +1,21 @@
+{
+  "name": "artconnect-backend",
+  "version": "1.0.0",
+  "description": "Node.js / Express backend for the ArtConnect platform (CIS 2336 Web Project Phase 3)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "keywords": [
+    "express",
+    "node",
+    "artconnect",
+    "cis2336"
+  ],
+  "author": "Jaikrishna Parthiban",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.22.2"
+  }
+}
