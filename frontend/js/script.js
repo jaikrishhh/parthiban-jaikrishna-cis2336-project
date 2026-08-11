@@ -442,7 +442,39 @@ function openArtModal(art) {
     });
   });
 
-  form.addEventListener("submit", (e) => {
+  // -------------------------------------------------------------------------
+  // Phase 3 - submit the form to the Express backend.
+  //
+  // The client-side validation above still runs first as a convenience, but it
+  // is not the real gate: the server re-validates every field independently,
+  // because anything checked in the browser can be bypassed. The message shown
+  // to the user comes from the server's response, not from this file.
+  // -------------------------------------------------------------------------
+  const API_URL = "/api/artworks";
+
+  // The API reports errors under its own short field names. This maps them
+  // back to the input ids on this page so each message lands under the right
+  // input, reusing the same .invalid / .error-msg markup as the local checks.
+  const INPUT_ID_FOR_API_FIELD = {
+    title: "artwork-title",
+    artist: "artist-name",
+    email: "artist-email",
+    category: "artwork-category",
+    price: "artwork-price",
+    description: "artwork-description"
+  };
+
+  function showServerErrors(errors) {
+    Object.keys(errors).forEach((key) => {
+      const input = qs("#" + (INPUT_ID_FOR_API_FIELD[key] || key));
+      if (!input) return;
+      const field = input.closest(".form-field");
+      field.classList.add("invalid");
+      qs(".error-msg", field).textContent = errors[key];
+    });
+  }
+
+  form.addEventListener("submit", async (e) => {
     e.preventDefault();
     successBox.classList.remove("show");
 
@@ -457,14 +489,52 @@ function openArtModal(art) {
       return;
     }
 
-    const title = qs("#artwork-title").value.trim();
-    successBox.textContent =
-      "Thank you! \u201C" + title + "\u201D has been received. " +
-      "Our curation team reviews new submissions within 3 business days. " +
-      "(Demo note: submissions will be stored once the backend is added in a later phase.)";
-    successBox.classList.add("show");
-    form.reset();
-    qsa(".form-field", form).forEach((f) => f.classList.remove("invalid"));
+    const submitBtn = qs("button[type='submit']", form);
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Submitting\u2026";
+    }
+
+    // FormData reads each input by its name attribute, so the payload keys
+    // match the form markup exactly; the backend maps them to its own names.
+    const payload = Object.fromEntries(new FormData(form).entries());
+
+    try {
+      const response = await fetch(API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+
+      const result = await response.json();
+
+      // A 400 means the server rejected the data - show its per-field errors.
+      if (!response.ok) {
+        if (result.errors) showServerErrors(result.errors);
+        successBox.textContent =
+          result.message || "Submission failed. Please check the fields above.";
+        successBox.classList.add("show");
+        return;
+      }
+
+      successBox.textContent =
+        result.message +
+        " Our curation team reviews new submissions within 3 business days.";
+      successBox.classList.add("show");
+      form.reset();
+      qsa(".form-field", form).forEach((f) => f.classList.remove("invalid"));
+    } catch (err) {
+      console.error("Submission failed:", err);
+      successBox.textContent =
+        "Could not reach the server. Start the backend by running " +
+        "\u201Cnpm start\u201D inside the backend folder, then try again.";
+      successBox.classList.add("show");
+    } finally {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Submit artwork";
+      }
+    }
   });
 })();
 
