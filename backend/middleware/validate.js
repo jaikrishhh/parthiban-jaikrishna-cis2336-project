@@ -73,8 +73,79 @@ function meansNotForSale(value) {
   return normalized === 'notforsale' || normalized === 'nfs';
 }
 
+// ---------------------------------------------------------------------------
+// Field-name mapping.
+//
+// The Phase 2 submission form names its inputs with hyphenated, prefixed names
+// (artwork-title, artist-name, ...). The API's internal field names are short
+// and unprefixed. This map lets the form post exactly as it already is, with
+// no HTML changes, while the rest of the backend works with clean names.
+//
+// Both spellings are accepted, so a plain JSON client can post { title: ... }
+// and the browser form can post { "artwork-title": ... }.
+// ---------------------------------------------------------------------------
+const FIELD_ALIASES = {
+  'artwork-title': 'title',
+  'artworkTitle': 'title',
+  'artist-name': 'artist',
+  'artistName': 'artist',
+  'artist-email': 'email',
+  'artistEmail': 'email',
+  'artwork-category': 'category',
+  'artworkCategory': 'category',
+  'artwork-price': 'price',
+  'artworkPrice': 'price',
+  'artwork-description': 'description',
+  'artworkDescription': 'description',
+  'artwork-image': 'image',
+  'image-url': 'image',
+  'imageUrl': 'image'
+};
+
+// The form's <option value="..."> attributes are lowercase shorthand. These
+// map to the display labels used on the Gallery page, so what gets stored
+// matches the seeded artwork exactly.
+const CATEGORY_LABELS = {
+  'painting': 'Painting',
+  'drawing': 'Drawing & Illustration',
+  'printmaking': 'Printmaking',
+  'photography': 'Photography',
+  'sculpture': 'Sculpture',
+  'digital': 'Digital Art',
+  'mixed': 'Mixed Media'
+};
+
+/**
+ * Copies any aliased field onto its canonical name, leaving the original in
+ * place. Runs before validation so every later step sees one consistent shape.
+ */
+function normalizeFieldNames(body) {
+  const aliases = Object.keys(FIELD_ALIASES);
+
+  for (let i = 0; i < aliases.length; i++) {
+    const alias = aliases[i];
+    const canonical = FIELD_ALIASES[alias];
+
+    // Only fill the canonical name if the form did not already supply it.
+    if (body[alias] !== undefined && isBlank(body[canonical])) {
+      body[canonical] = body[alias];
+    }
+  }
+
+  return body;
+}
+
+/** Turns a form's shorthand category value into its display label. */
+function normalizeCategory(value) {
+  if (isBlank(value)) {
+    return value;
+  }
+  const key = String(value).trim().toLowerCase();
+  return CATEGORY_LABELS[key] !== undefined ? CATEGORY_LABELS[key] : String(value).trim();
+}
+
 function validateArtwork(req, res, next) {
-  const body = req.body || {};
+  const body = normalizeFieldNames(req.body || {});
   const errors = {};
 
   if (isBlank(body.title)) {
@@ -127,7 +198,7 @@ function validateArtwork(req, res, next) {
   // Normalize before the handler sees it: trim strings, coerce the price.
   req.body.title = String(body.title).trim();
   req.body.artist = String(body.artist).trim();
-  req.body.category = String(body.category).trim();
+  req.body.category = normalizeCategory(body.category);
   req.body.price = normalizedPrice;
   req.body.email = isBlank(body.email) ? '' : String(body.email).trim().toLowerCase();
   req.body.image = isBlank(body.image) ? '' : String(body.image).trim();
