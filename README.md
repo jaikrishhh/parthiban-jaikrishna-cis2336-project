@@ -1,4 +1,4 @@
-# ArtConnect — CIS 2336 Web Project (Phases 2-3: Front-end & Back-end)
+# ArtConnect — CIS 2336 Web Project
 
 ArtConnect is a curated platform where beginner and professional artists showcase
 their artwork, promote art events, and connect with enthusiasts and collectors —
@@ -102,7 +102,35 @@ All image, multimedia, and AI prompt documentation lives on the site's
 [References page](frontend/pages/references.html), per the course academic
 integrity requirements. Development was assisted by Claude (Anthropic); the
 developer reviewed, tested, and deployed all code.
-# Backend Documentation (Phase 3)
+---
+
+## Front-end / back-end integration
+
+The server is the single source of truth for gallery and event data.
+
+**On page load.** `script.js` requests `/api/artworks` and `/api/events` in
+parallel, then renders. The gallery, homepage featured strip, and events list
+all draw from the API response.
+
+**Offline fallback.** The original arrays remain in `script.js` as a fallback.
+If the fetch fails — pages opened directly from disk, or the GitHub Pages
+deployment where no Node server exists — the bundled data renders instead, so
+the site works in both environments rather than showing an empty gallery. The
+console reports which path was taken.
+
+**Render ordering.** Rendering is deferred until the data settles, so the page
+never shows one set of artworks and then swaps to another.
+
+**Submission round trip.** A piece submitted through the form is validated
+server-side, stored, and returned in the same shape as the seed data — so it
+appears in the gallery on the next load with no special handling.
+
+**Single origin.** Express serves the front end and the API from one port, so
+relative `fetch("/api/...")` calls work with no CORS configuration.
+
+---
+
+## Back-end documentation
 
 > Paste this whole file into the bottom of your root `README.md`, below the
 > existing Phase 2 content. Then change the README's top heading from
@@ -110,7 +138,7 @@ developer reviewed, tested, and deployed all code.
 
 ---
 
-## Tech Stack
+### Tech Stack
 
 | Layer | Technology |
 | --- | --- |
@@ -125,7 +153,7 @@ Restarting the server resets everything to the seeded baseline.
 
 ---
 
-## Running the Backend Locally
+### Running the Backend Locally
 
 ```bash
 # from the repository root
@@ -147,7 +175,7 @@ Set a different port with the `PORT` environment variable, e.g. `PORT=4000 npm s
 
 ---
 
-## Folder Structure
+### Folder Structure
 
 ```
 backend/
@@ -171,7 +199,10 @@ would be the only thing to rewrite.
 
 ---
 
-## Data Models
+### Data models
+
+Both seed data and new submissions use one shape, so the gallery renders a
+freshly submitted piece exactly like a seeded one with no conversion step.
 
 **Artwork**
 
@@ -180,15 +211,14 @@ would be the only thing to rewrite.
 | `id` | number | Assigned by the server |
 | `title` | string | Required, max 120 chars |
 | `artist` | string | Required |
-| `email` | string | Required, validated format |
-| `category` | string | Required, must be one of the six valid categories |
-| `price` | number | Required, ≥ 0 |
-| `image` | string | Optional, defaults to a placeholder path |
-| `description` | string | Optional, max 500 chars |
+| `year` | number | Defaults to the current year on new submissions |
+| `category` | string | Required |
+| `medium` | string | Defaults to "Not specified" |
+| `price` | number \| null | `null` renders as a "Not for Sale" label |
+| `img` | string | Empty string tells the front end to use its placeholder |
+| `description` | string | Max 500 chars |
+| `email` | string | Optional; stored only when supplied |
 | `submittedAt` | ISO string | Assigned by the server |
-
-Valid categories: `Painting`, `Photography`, `Sculpture`, `Digital Art`,
-`Drawing`, `Mixed Media`.
 
 **Event**
 
@@ -196,30 +226,45 @@ Valid categories: `Painting`, `Photography`, `Sculpture`, `Digital Art`,
 | --- | --- | --- |
 | `id` | number | Assigned by the server |
 | `title` | string | Required |
-| `date` | string | Required, `YYYY-MM-DD` |
-| `time` | string | Optional, defaults to `TBA` |
+| `date` | string | Human-readable, e.g. "Saturday, August 8, 2026 · 6:00–9:00 PM" |
 | `location` | string | Required |
-| `price` | number | Optional, defaults to 0 |
-| `description` | string | Optional |
+| `img` | string | Cover image |
+| `summary` | string | Shown on the collapsed card |
+| `details` | string | Revealed by the "Event details" toggle |
 
-**Contact Message**
+**Contact message**
 
 | Field | Type | Notes |
 | --- | --- | --- |
 | `id` | number | Assigned by the server |
 | `name` | string | Required |
-| `email` | string | Required, validated format |
-| `subject` | string | Optional, defaults to "General inquiry" |
-| `message` | string | Required, 10–1000 chars |
+| `email` | string | Required, format validated |
+| `subject` | string | Defaults to "General inquiry" |
+| `message` | string | 10–1000 chars |
 | `receivedAt` | ISO string | Assigned by the server |
 
----
+### Form field mapping
 
-## API Reference
+The submission form uses prefixed input names. The API accepts them directly,
+so the Phase 2 markup needed no changes:
+
+| Form input name | API field |
+| --- | --- |
+| `artwork-title` | `title` |
+| `artist-name` | `artist` |
+| `artist-email` | `email` |
+| `artwork-category` | `category` |
+| `artwork-price` | `price` |
+| `artwork-description` | `description` |
+
+Category values are lowercase shorthand in the markup (`mixed`, `digital`) and
+are normalised to display labels ("Mixed Media", "Digital Art") on the server.
+
+### API Reference
 
 Base URL: `http://localhost:3000/api`
 
-### Artworks
+#### Artworks
 
 | Method | Endpoint | Body | Success | Errors |
 | --- | --- | --- | --- | --- |
@@ -236,7 +281,7 @@ Query parameters on `GET /api/artworks` (all optional, combinable):
 | `max` | `?max=500` | Only pieces at or below this price |
 | `sort` | `?sort=price-asc` | `price-asc`, `price-desc`, `title`, or `newest` |
 
-### Events
+#### Events
 
 | Method | Endpoint | Body | Success | Errors |
 | --- | --- | --- | --- | --- |
@@ -246,14 +291,14 @@ Query parameters on `GET /api/artworks` (all optional, combinable):
 
 Query parameters: `?upcoming=true`, `?free=true`, `?sort=date`.
 
-### Contact
+#### Contact
 
 | Method | Endpoint | Body | Success | Errors |
 | --- | --- | --- | --- | --- |
 | POST | `/api/contact` | `{name, email, message, subject?}` | `201` `{success, message, reference}` | `400` with per-field `errors` |
 | GET | `/api/contact` | — | `200` `{success, count, messages[]}` | — |
 
-### Utility
+#### Utility
 
 | Method | Endpoint | Returns |
 | --- | --- | --- |
@@ -262,7 +307,7 @@ Query parameters: `?upcoming=true`, `?free=true`, `?sort=date`.
 
 ---
 
-## Middleware
+### Middleware
 
 Middleware is registered in `server.js` in a deliberate order, since Express
 runs it top to bottom:
@@ -282,7 +327,7 @@ runs it top to bottom:
    what marks it as an error handler in Express. Logs the stack and returns a
    `500` without leaking internals to the client.
 
-### Validation
+#### Validation
 
 `middleware/validate.js` exports one validator per POST route. Each runs
 *before* its handler, so an invalid request never reaches the data store.
@@ -306,7 +351,7 @@ security control, since they can be bypassed entirely.
 
 ---
 
-## Testing the API
+### Testing the API
 
 With the server running, from a second terminal:
 
